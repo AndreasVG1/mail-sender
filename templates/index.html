@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Send Mail</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="card">
+        <h2>Saada meil</h2>
+        <form method="POST" action="/send">
+            <label for="recipient">Saaja aadress:</label>
+            <input type="text" id="recipient" name="recipient"><br>
+            <label for="template">Vali meili mall:</label>
+            <select name="template" id="template" required>
+                <option value="" disabled selected>Vali mall</option>
+                <option value="welcome">Welcome Template</option>
+                <option value="follow_up">Follow-up Template</option>
+                <option value="invoice">Invoice Template</option>
+                <!-- Add more options as needed -->
+            </select>
+
+            <button type="submit">Saada</button>
+        </form>
+        <div class="footer">
+            Powered by Andreas Villem
+        </div>
+    </div>
+</body>
+</html>

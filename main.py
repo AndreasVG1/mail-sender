@@ -10,26 +10,27 @@ PASSWORD = os.getenv("EMAIL_PASSWORD")
 
 SMTP_SERVER = 'smtp.zone.eu'
 SMTP_PORT = 465
-def send_mail(template, to):
-    with open(f'templates/aknajuhend.html', 'r') as f:
-        template = Template(f.read())
 
-    html_body = template.render()
+def send_mail(template, to):
+    with open(f'templates/{template}.html', 'r') as f:
+        html_template = Template(f.read())
+
+    html_body = html_template.render()
 
     msg = EmailMessage()
-    msg['Subject'] = 'Aknaroboti kasutamise juhend'
+    msg['Subject'] = 'Juhend'
     msg['From'] = USERNAME
     msg['To'] = to
     msg.set_content("Malli kasutamine ebaõnnestus.")
     msg.add_alternative(html_body, subtype='html')
 
 
-    with open ('files/aknajuhend.pdf', 'rb') as f:
+    with open (f'files/{template}.pdf', 'rb') as f:
         msg.add_attachment(
             f.read(),
             maintype='application',
             subtype='pdf',
-            filename='aknajuhend'
+            filename=template
         )
 
     with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as smtp:

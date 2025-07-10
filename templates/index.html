@@ -7,18 +7,22 @@
     <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
+    {% if popup %}
+        <div class="popup">
+            <p>Meil teele pandud!</p>
+        </div>
+    {% endif %}
     <div class="card">
         <h2>Saada meil</h2>
-        <form method="POST" action="/send">
+        <form method="POST" action="/">
             <label for="recipient">Saaja aadress:</label>
             <input type="text" id="recipient" name="recipient"><br>
             <label for="template">Vali meili mall:</label>
             <select name="template" id="template" required>
                 <option value="" disabled selected>Vali mall</option>
-                <option value="welcome">Welcome Template</option>
-                <option value="follow_up">Follow-up Template</option>
-                <option value="invoice">Invoice Template</option>
-                <!-- Add more options as needed -->
+                {% for i in temps %}
+                    <option value={{i}}>{{i}}</option>
+                {% endfor %}
             </select>
 
             <button type="submit">Saada</button>

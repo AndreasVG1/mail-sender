@@ -1,0 +1,19 @@
+import os
+
+def get_env_str(key: str) -> str:
+    value = os.getenv(key)
+    if value is None:
+        raise ValueError(f"Missing required environment variable: {key}")
+    return value
+
+def get_env_int(key: str) -> int:
+    value = os.getenv(key)
+    if value is None:
+        raise ValueError(f"Missing required environment variable: {key}")
+    return int(value)
+
+# App settings
+EMAIL_USERNAME = get_env_str("EMAIL_USERNAME")
+EMAIL_PASSWORD = get_env_str("EMAIL_PASSWORD")
+EMAIL_SERVER = get_env_str("EMAIL_SERVER")
+EMAIL_PORT = get_env_int("EMAIL_PORT")

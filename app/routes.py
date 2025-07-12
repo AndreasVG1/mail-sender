@@ -1,23 +1,19 @@
-'''
-from flask import Flask
-from flask import render_template
-from flask import request
-from main import send_mail
-from PyPDF2 import PdfReader
+from flask import Blueprint, render_template, request
+from app.mail_service import send_mail
 import os
 
-app = Flask(__name__)
+main = Blueprint("main", __name__)
 
-
-def getTemplates():
-    templates = []
+def getTemplates() -> list[str]:
+    templates: list[str] = []
     for name in os.listdir('files/'):
         templates.append(os.path.splitext(name)[0])
     return(templates)
 
-@app.route("/", methods=['POST', 'GET'])
-def home():
-    templates = getTemplates()
+
+@main.route("/", methods=["GET", "POST"])
+def index():
+    templates: list[str] = getTemplates()
     if request.method == 'POST':
         to = request.form['recipient']
         template = request.form['template']
@@ -26,6 +22,3 @@ def home():
 
     return render_template("index.html", popup=False, temps=templates)
 
-if __name__ == "__main__":
-    app.run(host='127.0.0.1', port=5000, debug=False) 
-'''

@@ -6,16 +6,27 @@ from datetime import datetime, timezone
 class User(db.Model):
     __tablename__ = "users"
 
+    def __init__(self, username, email, password):
+        self.username=username
+        self.email=email
+        self.password=password
+
     id: Mapped[int] = mapped_column(primary_key=True)
     username: Mapped[str] = mapped_column(unique=True, nullable=False)
     email: Mapped[str] = mapped_column(nullable=False)
     password: Mapped[str] = mapped_column(nullable=False)
 
-    templates: Mapped[list["MailTemplate"]] = relationship(back_populates="users")
-    logs: Mapped[list["MailLog"]] = relationship(back_populates="users")
+    templates: Mapped[list["MailTemplate"]] = relationship(back_populates="user")
+    logs: Mapped[list["MailLog"]] = relationship(back_populates="user")
 
 class MailTemplate(db.Model):
     __tablename__ = "templates"
+
+    def __init__(self, title, content_html, file_path, user_id):
+        self.title=title
+        self.content_html=content_html
+        self.file_path=file_path
+        self.user_id=user_id
 
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column(nullable=False)
@@ -24,10 +35,15 @@ class MailTemplate(db.Model):
 
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     user: Mapped["User"] = relationship(back_populates="templates")
-    logs: Mapped[list["MailLog"]] = relationship(back_populates="templates")
+    logs: Mapped[list["MailLog"]] = relationship(back_populates="template")
 
 class MailLog(db.Model):
     __tablename__ = "logs"
+
+    def __init__(self, recipient, user_id, template_id):
+        self.recipient=recipient
+        self.user_id=user_id
+        self.template_id=template_id
 
     id: Mapped[int] = mapped_column(primary_key=True)
     recipient: Mapped[str] = mapped_column(nullable=False)

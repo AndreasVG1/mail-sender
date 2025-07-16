@@ -6,19 +6,18 @@ main = Blueprint("main", __name__)
 
 def getTemplates() -> list[str]:
     templates: list[str] = []
-    for name in os.listdir('files/'):
+    for name in os.listdir('app/files/'):
         templates.append(os.path.splitext(name)[0])
     return(templates)
 
-
-@main.route("/", methods=["GET", "POST"])
-def index():
+@main.route("/send", methods=["GET", "POST"])
+def send():
     templates: list[str] = getTemplates()
     if request.method == 'POST':
         to = request.form['recipient']
         template = request.form['template']
         send_mail(template, to)
-        return render_template("index.html", popup=True, temps=templates)
+        return render_template("send.html", popup=True, temps=templates)
 
-    return render_template("index.html", popup=False, temps=templates)
+    return render_template("send.html", popup=False, temps=templates)
 

@@ -1,7 +1,7 @@
 import smtplib
 from email.message import EmailMessage
 from jinja2 import Template
-from config import EMAIL_SERVER, EMAIL_PORT, EMAIL_USERNAME, EMAIL_PASSWORD
+from config import Config
 
 
 def parse_template(template: str) -> Template:
@@ -13,7 +13,7 @@ def parse_template(template: str) -> Template:
 def send_mail(template: str, to: str) -> None:
     msg = EmailMessage()
     msg['Subject'] = 'Juhend'
-    msg['From'] = EMAIL_USERNAME
+    msg['From'] = Config.EMAIL_USERNAME
     msg['To'] = to
     msg.set_content("Malli kasutamine ebaõnnestus.")
     msg.add_alternative(parse_template(template), subtype='html')
@@ -27,6 +27,6 @@ def send_mail(template: str, to: str) -> None:
             filename=template
         )
 
-    with smtplib.SMTP_SSL(EMAIL_SERVER, EMAIL_PORT) as smtp:
-        smtp.login(EMAIL_USERNAME, EMAIL_PASSWORD)
+    with smtplib.SMTP_SSL(Config.EMAIL_SERVER, Config.EMAIL_PORT) as smtp:
+        smtp.login(Config.EMAIL_USERNAME, Config.EMAIL_PASSWORD)
         smtp.send_message(msg)

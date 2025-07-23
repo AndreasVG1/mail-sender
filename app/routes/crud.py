@@ -1,0 +1,35 @@
+from flask import Blueprint, request, session, redirect, url_for, render_template, current_app
+from app import db
+import os
+from werkzeug.utils import secure_filename
+from ..models import MailTemplate
+
+crud = Blueprint("crud", __name__)
+
+@crud.route("/templates/new", methods=["GET", "POST"])
+def create_template():
+    UPLOAD_FOLDER = os.path.join(current_app.root_path, "files")
+
+    if request.method == "POST":
+        title = request.form["title"]
+        content_html = request.form["content_html"]
+        file = request.files.get("file")
+
+        file_path = None
+        if file and file.filename:
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(UPLOAD_FOLDER, filename))
+            file_path = filename
+
+        # Save to DB
+        new_template = MailTemplate(
+            title=title,
+            content_html=content_html,
+            file_path=file_path,
+            user_id=session["user_id"]
+        )
+        db.session.add(new_template)
+        db.session.commit()
+        return redirect(url_for("main.dashboard"))
+    
+    return render_template("new.html")

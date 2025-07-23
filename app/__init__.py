@@ -20,11 +20,12 @@ def create_app() -> Flask:
         from . import models
         db.create_all()
 
-    print(app.config["SQLALCHEMY_DATABASE_URI"])
     # Register routes or blueprints
-    from .routes import main as main_blueprint
+    from .routes.main import main as main_blueprint
     app.register_blueprint(main_blueprint)
-    from.auth import auth as auth_blueprint
+    from.routes.auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
+    from.routes.crud import crud as crud_blueprint
+    app.register_blueprint(crud_blueprint)
 
     return app

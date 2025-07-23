@@ -40,8 +40,9 @@ class MailTemplate(db.Model):
 class MailLog(db.Model):
     __tablename__ = "logs"
 
-    def __init__(self, recipient, user_id, template_id):
+    def __init__(self, recipient, timestamp, user_id, template_id):
         self.recipient=recipient
+        self.timestamp = timestamp
         self.user_id=user_id
         self.template_id=template_id
 
@@ -54,3 +55,24 @@ class MailLog(db.Model):
 
     template_id: Mapped[int] = mapped_column(ForeignKey("templates.id"))
     template: Mapped["MailTemplate"] = relationship(back_populates="logs")
+
+class MailSettings(db.Model):
+    __tablename__ = "mail_settings"
+
+    def __init__(self, smtp_server, smtp_port, use_tls, email_address, email_password, user_id):
+        self.smtp_server = smtp_server
+        self.smtp_port = smtp_port
+        self.use_tls = use_tls
+        self.email_address = email_address
+        self.email_password = email_password
+        self.user_id = user_id
+
+    id: Mapped[int] = mapped_column(primary_key=True)    
+    smtp_server: Mapped[str] = mapped_column(nullable=False)
+    smtp_port: Mapped[int] = mapped_column(nullable=False)
+    use_tls: Mapped[bool] = mapped_column(default=True)
+    email_address: Mapped[str] = mapped_column(nullable=False)
+    email_password: Mapped[str] = mapped_column(nullable=False)
+
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    user: Mapped["User"] = relationship(back_populates="mail_settings")

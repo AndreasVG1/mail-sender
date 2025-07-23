@@ -32,3 +32,11 @@ def register():
             return redirect(url_for("auth.login"))
     return render_template("register.html")
 
+@auth.route("/logout")
+def logout():
+    session.pop("user_id", None)
+    return redirect(url_for("auth.login"))
+
+
+
+

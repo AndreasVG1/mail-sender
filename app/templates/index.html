@@ -10,8 +10,14 @@
     <div class="welcome-container">
     <h1>Welcome to Mail Sender</h1>
     <p>Send templated emails easily and securely.</p>
-    <a href="{{ url_for('auth.login') }}">Log In</a>
-    <a href="{{ url_for('auth.register') }}">Register</a>
+    {% if current_user.is_authenticated %}
+        <a href="{{ url_for('main.dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('auth.logout') }}">Logout</a>
+    {% else %}
+        <a href="{{ url_for('auth.login') }}">Login</a>
+        <a href="{{ url_for('auth.register') }}">Register</a>
+    {% endif %}
+
   </div>
 </body>
 </html>

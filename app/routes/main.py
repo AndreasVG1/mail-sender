@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for
 from app.mail_service import send_mail
-from ..models import User, MailSettings
+from flask_login import login_required, current_user
+from ..models import User
 # from app import db
 import os
 
@@ -28,10 +29,7 @@ def send():
     return render_template("send.html", popup=False, temps=templates)
 
 @main.route("/dashboard")
+@login_required
 def dashboard():
-    user_id = session.get("user_id")
-    if not user_id:
-        return redirect(url_for("auth.login"))
-
-    user = User.query.get(user_id)
+    user = current_user
     return render_template("dashboard.html", user=user)

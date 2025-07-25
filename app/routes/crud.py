@@ -2,13 +2,17 @@ from flask import Blueprint, request, session, redirect, url_for, render_templat
 from app import db
 import os
 from werkzeug.utils import secure_filename
+from flask_login import login_required, current_user
 from ..models import MailTemplate
 
 crud = Blueprint("crud", __name__)
 
 @crud.route("/templates/new", methods=["GET", "POST"])
+@login_required
 def create_template():
     UPLOAD_FOLDER = os.path.join(current_app.root_path, "files")
+
+    user = current_user
 
     if request.method == "POST":
         title = request.form["title"]
@@ -26,7 +30,7 @@ def create_template():
             title=title,
             content_html=content_html,
             file_path=file_path,
-            user_id=session["user_id"]
+            user_id=user.id
         )
         db.session.add(new_template)
         db.session.commit()

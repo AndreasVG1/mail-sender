@@ -1,9 +1,10 @@
 from app import db
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import Text, ForeignKey, DateTime
+from flask_login import UserMixin
 from datetime import datetime, timezone
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = "users"
 
     def __init__(self, username, email, password):

@@ -1,6 +1,41 @@
-<form method="POST">
-  <input type="text" name="username" placeholder="Username" required>
-  <input type="email" name="email" placeholder="Email" required>
-  <input type="password" name="password" placeholder="Password" required>
-  <button type="submit">Register</button>
-</form>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='authstyle.css') }}">
+</head>
+<body>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul style="color: red;">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <form method="POST">
+    <h2>Account Information</h2>
+    <input type="text" name="username" placeholder="Username" required>
+    <input type="text" name="userEmail" placeholder="Your contact email" required>
+    <input type="password" name="userPassword" placeholder="Password" required>
+
+    <h2>Email Account Setup</h2>
+    <label for="provider">Mail provider:</label>
+    <select name="provider" id="provider">
+      <option value="zone">Zone WebMail</option>
+      <option value="gmail">Gmail</option>
+      <option value="outlook">Outlook</option>
+    </select>
+
+    <label for="accEmail">Email address used for sending:</label>
+    <input type="text" name="accEmail" placeholder="example@mail.com" required>
+
+    <label for="accPassword">Email password:</label>
+    <input type="password" name="accPassword" placeholder="Email account password" required>
+
+    <button type="submit">Register</button>
+  </form>
+</body>
+</html>

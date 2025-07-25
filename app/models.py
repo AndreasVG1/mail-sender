@@ -18,6 +18,7 @@ class User(db.Model):
 
     templates: Mapped[list["MailTemplate"]] = relationship(back_populates="user")
     logs: Mapped[list["MailLog"]] = relationship(back_populates="user")
+    mail_settings: Mapped["MailSettings"] = relationship(back_populates="user", uselist=False)
 
 class MailTemplate(db.Model):
     __tablename__ = "templates"

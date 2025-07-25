@@ -1,2 +1,11 @@
 <h2>Welcome, {{ user.username }}!</h2>
 <a href="{{ url_for('auth.logout') }}">Logout</a>
+
+<h2>Mail Settings</h2>
+
+<ul>
+    <li>SMTP Server: {{ user.mail_settings.smtp_server }}</li>
+    <li>SMTP Port: {{ user.mail_settings.smtp_port }}</li>
+    <li>Email Address: {{ user.mail_settings.email_address }}</li>
+    <li>Password: {{ user.mail_settings.email_password }}</li>
+</ul>

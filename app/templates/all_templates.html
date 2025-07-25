@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Templates</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='crudstyle.css') }}">
+</head>
+<body>
+    <h1>Your Templates</h1>
+
+    {% if templates %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Preview</th>
+                    <th>Attachment</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for template in templates %}
+                <tr>
+                    <td>{{ template.title }}</td>
+                    <td>{{ template.content_html[:50]|safe }}...</td>
+                    <td>{{ template.file_path or "None" }}</td>
+                    <td>
+                        <p>Edit</p>
+                        |
+                        <p>Delete</p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You haven't created any templates yet.</p>
+    {% endif %}
+
+    <a href="{{ url_for('crud.create_template') }}">➕ Create New Template</a>
+</body>
+</html>

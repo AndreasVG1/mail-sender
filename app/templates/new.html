@@ -7,7 +7,42 @@
     <title>New Template</title>
 </head>
 <body>
+
     <form method="POST" enctype="multipart/form-data" id="templateForm">
+        <div class="form-group">
+            <label for="templateName">Template Name:</label>
+            <input type="text" id="templateName" name="templateName" required>
+        </div>
+        
+<div class="form-group">
+            <label>Email Content:</label>
+            <div class="editor-container">
+                <div>
+                    <label for="editor">Write your content:</label>
+                    <textarea id="editor" name="emailContent" placeholder="Start typing your email content..."></textarea>
+                </div>
+            </div>
+            <input type="hidden" id="emailHtml" name="emailHtml">
+        </div>
+            <!-- Hidden input that will contain the HTML for form submission -->
+            <input type="hidden" id="emailHtml" name="emailHtml" class="hidden-input">
+        </div>
+
+        <div class="form-group">
+            <label for="file">Attach PDF:</label>
+            <input type="file" name="file" accept="application/pdf">
+        </div>
+
+        <button type="submit">Save</button>
+    </form>
+
+    <div class="form-group">
+        <label>Generated HTML Output:</label>
+        <div id="htmlOutput"></div>
+    </div>
+
+
+    <!-- <form method="POST" enctype="multipart/form-data" id="templateForm">
 
         <div class="form-group">
             <label for="title">Subject:</label>
@@ -31,17 +66,13 @@
                 <div id="editor" contenteditable="true" placeholder="Start typing your email content...">
                 </div>
             </div>
-            <!-- Hidden input that will contain the HTML for form submission -->
-            <input type="hidden" id="emailHtml" name="emailHtml" class="hidden-input">
+            <input type="hidden" id="content_html" name="content_html" class="hidden-input">
         </div>
 
-        <div class="form-group">
-            <label for="file">Attach PDF:</label>
-            <input type="file" name="file" accept="application/pdf">
-        </div>
+        
 
         <button type="submit">Save</button>
-    </form>
+    </form> -->
     
     <script src="../static/main.js"></script>
 </body>

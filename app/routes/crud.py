@@ -15,8 +15,8 @@ def create_template():
     user = current_user
 
     if request.method == "POST":
-        title = request.form["title"]
-        content_html = request.form["content_html"]
+        title = request.form["templateName"]
+        content_html = request.form["emailContent"]
         file = request.files.get("file")
 
         file_path = None
@@ -37,3 +37,10 @@ def create_template():
         return redirect(url_for("main.dashboard"))
     
     return render_template("new.html")
+
+@crud.route("/templates/all")
+@login_required
+def all_templates():
+    user = current_user
+    templates = user.templates
+    return render_template("all_templates.html", templates=templates)

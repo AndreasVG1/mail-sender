@@ -17,10 +17,7 @@ def get_env_int(key: str) -> int:
     return int(value)
 
 class Config:
-    EMAIL_USERNAME = get_env_str("EMAIL_USERNAME")
-    EMAIL_PASSWORD = get_env_str("EMAIL_PASSWORD")
-    EMAIL_SERVER = get_env_str("EMAIL_SERVER")
-    EMAIL_PORT = get_env_int("EMAIL_PORT")
+    
 
     SQLALCHEMY_DATABASE_URI = "sqlite:///app.db"
     SQLALCHEMY_TRACK_MODIFICATIONS = False

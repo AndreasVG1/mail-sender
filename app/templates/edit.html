@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Template</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='crudstyle.css') }}">
+</head>
+<body>
+    <h1>Edit Template</h1>
+
+    <form method="POST" enctype="multipart/form-data" id="templateForm">
+        <div class="form-group">
+            <label for="templateName">Template Name:</label>
+            <input type="text" id="templateName" name="templateName" value="{{ template.title }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Email Content:</label>
+            <div class="editor-container">
+                <textarea id="editor" name="emailContent">{{ template.content_html | safe }}</textarea>
+            </div>
+            <input type="hidden" id="emailHtml" name="emailHtml" value="{{ template.content_html | safe }}">
+        </div>
+
+        <div class="form-group">
+            <label for="file">Attach PDF (optional):</label>
+            {% if template.file_path %}
+                <p>Current File: {{ template.file_path }}</p>
+            {% endif %}
+            <input type="file" name="file" accept="application/pdf">
+        </div>
+
+        <button type="submit">Update</button>
+    </form>
+
+    <div class="form-group">
+        <label>Generated HTML Output:</label>
+        <div id="htmlOutput">{{ template.content_html | safe }}</div>
+    </div>
+
+    <script src="../static/main.js"></script>
+</body>
+</html>

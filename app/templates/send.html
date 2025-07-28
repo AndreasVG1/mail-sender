@@ -14,14 +14,14 @@
     {% endif %}
     <div class="card">
         <h2>Saada meil</h2>
-        <form method="POST" action="/">
+        <form method="POST">
             <label for="recipient">Saaja aadress:</label>
             <input type="text" id="recipient" name="recipient"><br>
             <label for="template">Vali meili mall:</label>
             <select name="template" id="template" required>
                 <option value="" disabled selected>Vali mall</option>
-                {% for i in temps %}
-                    <option value={{i}}>{{i}}</option>
+                {% for template in temps %}
+                    <option value={{template.id}}>{{template.title}}</option>
                 {% endfor %}
             </select>
 

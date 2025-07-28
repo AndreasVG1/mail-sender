@@ -6,6 +6,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='crudstyle.css') }}">
 </head>
 <body>
+    {% if popup %}
+        <div class="popup">
+            <p>{{ message }}</p>
+        </div>
+    {% endif %}
     <h1>Your Templates</h1>
 
     {% if templates %}
@@ -25,9 +30,9 @@
                     <td>{{ template.content_html[:50]|safe }}...</td>
                     <td>{{ template.file_path or "None" }}</td>
                     <td>
-                        <p>Edit</p>
+                        <a href="{{ url_for('crud.edit', template_id=template.id) }}">Edit</a>
                         |
-                        <p>Delete</p>
+                        <a href="{{ url_for('crud.delete', template_id=template.id) }}">Delete</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -37,6 +42,6 @@
         <p>You haven't created any templates yet.</p>
     {% endif %}
 
-    <a href="{{ url_for('crud.create_template') }}">➕ Create New Template</a>
+    <a href="{{ url_for('crud.create') }}">➕ Create New Template</a>
 </body>
 </html>

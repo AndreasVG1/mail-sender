@@ -1,12 +1,14 @@
-from flask import Blueprint, request, render_template, redirect, url_for, flash, session
+from flask import Blueprint, request, render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.models import db, User, MailSettings
+from app.utils.crypto import encrypt
+from werkzeug.wrappers.response import Response
 
 auth = Blueprint("auth", __name__)
 
 @auth.route("/login", methods=["GET", "POST"])
-def login():
+def login() -> Response | str:
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -22,7 +24,7 @@ def login():
     return render_template("login.html")
 
 @auth.route("/register", methods=["GET", "POST"])
-def register():
+def register() -> Response | str:
     if request.method == "POST":
         username = request.form["username"]
         user_email = request.form["userEmail"]
@@ -30,7 +32,7 @@ def register():
 
         provider = request.form["provider"]
         account_email = request.form["accEmail"]
-        account_password = generate_password_hash(request.form["accPassword"])
+        account_password = encrypt(request.form["accPassword"])
         
         provider_map: dict[str, tuple[str, int]] = {
             "zone": ("smtp.zone.eu", 465),
@@ -63,9 +65,9 @@ def register():
     return render_template("register.html")
 
 @auth.route("/logout")
-def logout():
+def logout() -> Response:
     logout_user()
-    return redirect(url_for("auth.login"))
+    return redirect(url_for("main.index"))
 
 
 

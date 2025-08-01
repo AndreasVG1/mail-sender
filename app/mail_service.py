@@ -6,17 +6,14 @@ from app.models import MailTemplate, MailSettings, MailLog
 from app.utils.crypto import decrypt
 from app import db
 from datetime import datetime
-from pytz import timezone
+from zoneinfo import ZoneInfo
 from flask import current_app
 
 
 def log_mail(recipient: str, user_id: int, template_id: int) -> None:
-    time = timezone("Europe/Tallinn")
-    timestamp = datetime.now(time)
-
     log = MailLog(
         recipient=recipient,
-        timestamp=timestamp,
+        timestamp=datetime.now(ZoneInfo("Europe/Tallinn")),
         user_id=user_id,
         template_id=template_id
     )

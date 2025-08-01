@@ -1,4 +1,3 @@
-import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
@@ -42,5 +41,8 @@ def create_app() -> Flask:
 
     from.routes.crud import crud as crud_blueprint
     app.register_blueprint(crud_blueprint)
+
+    from.routes.log import log as log_blueprint
+    app.register_blueprint(log_blueprint)
 
     return app

@@ -2,10 +2,26 @@ import smtplib
 from email.message import EmailMessage
 from jinja2 import Template
 import os
-from app.models import MailTemplate, MailSettings
+from app.models import MailTemplate, MailSettings, MailLog
 from app.utils.crypto import decrypt
+from app import db
+from datetime import datetime
+from pytz import timezone
 from flask import current_app
 
+
+def log_mail(recipient: str, user_id: int, template_id: int) -> None:
+    time = timezone("Europe/Tallinn")
+    timestamp = datetime.now(time)
+
+    log = MailLog(
+        recipient=recipient,
+        timestamp=timestamp,
+        user_id=user_id,
+        template_id=template_id
+    )
+    db.session.add(log)
+    db.session.commit()
 
 def parse_template(template: str, context: dict = {}) -> str:
     html_template = Template(template)

@@ -34,7 +34,7 @@ def create() -> Response | str:
         )
         db.session.add(new_template)
         db.session.commit()
-        return redirect(url_for("crud.all"))
+        return redirect(url_for("crud.all", popup=True, message="Template added successfully."))
     
     return render_template("new.html")
 

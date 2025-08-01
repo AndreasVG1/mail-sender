@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request
-from app.mail_service import send_mail
+from app.mail_service import send_mail, log_mail
 from flask_login import login_required, current_user
 from ..models import MailTemplate
 
@@ -23,6 +23,7 @@ def send() -> str:
             return render_template("send.html", popup=False, temps=templates)
 
         send_mail(template, to, current_user.mail_settings)
+        log_mail(to, current_user.id, template.id)
         return render_template("send.html", popup=True, temps=templates)
 
     return render_template("send.html", popup=False, temps=templates)

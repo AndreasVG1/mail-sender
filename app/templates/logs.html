@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='crudstyle.css') }}">
+    <title>Logs</title>
+</head>
+<body>
+    <h1>Sent mail</h1>
+    {% if mail_logs %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Preview</th>
+                    <th>Recipient</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in mail_logs %}
+                    {% set template = log.template %}
+                    <tr>
+                        <td>{{ template.title }}</td>
+                        <td>{{ template.content_html[:50]|safe }}...</td>
+                        <td>{{ log.recipient }}</td>
+                        <td>{{ log.timestamp.strftime('%d/%m/%Y %H:%M') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You haven't sent any mail yet.</p>
+    {% endif %}
+</body>
+</html>

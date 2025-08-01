@@ -44,17 +44,33 @@ editor.addEventListener("input", updateOutput);
 updateOutput();
 
 // Handle form submission
-/* document
-  .getElementById("templateForm")
-  .addEventListener("submit", function (e) {
-    e.preventDefault();
+/*
+document
+    .getElementById("templateForm")
+    .addEventListener("submit", async function (e) {
+      e.preventDefault();
 
-    const templateName = document.getElementById("templateName").value;
-    const emailHtml = document.getElementById("emailHtml").value;
+      const form = document.getElementById("templateForm");
+      const formData = new FormData(form);
 
-    // Here you would typically send this data to your Python backend
-    console.log("Template Name:", templateName);
-    console.log("Email HTML:", emailHtml);
+      try {
+        const response = await fetch("/templates/new", {
+          method: "POST",
+          body: formData,
+        });
 
-  });
- */
+        if (response.ok) {
+          // Optionally redirect or show success popup
+          alert("Template saved successfully!");
+          window.location.href = "/templates/all";
+        } else {
+          const errorText = await response.text();
+          console.error("Error:", errorText);
+          alert("Failed to save template.");
+        }
+      } catch (error) {
+        console.error("Network error:", error);
+        alert("An error occurred.");
+      }
+    });
+*/

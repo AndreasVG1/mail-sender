@@ -17,15 +17,14 @@ def create() -> Response | str:
 
     if request.method == "POST":
         title = request.form["templateName"]
-        content_html = request.form["emailContent"]
+        content_html = request.form["emailHtml"]
         file = request.files.get("file")
-
         file_path = None
         if file and file.filename:
             filename = secure_filename(file.filename)
             file.save(os.path.join(UPLOAD_FOLDER, filename))
             file_path = filename
-
+        
         # Save to DB
         new_template = MailTemplate(
             title=title,
@@ -35,7 +34,7 @@ def create() -> Response | str:
         )
         db.session.add(new_template)
         db.session.commit()
-        return redirect(url_for("main.dashboard"))
+        return redirect(url_for("crud.all"))
     
     return render_template("new.html")
 

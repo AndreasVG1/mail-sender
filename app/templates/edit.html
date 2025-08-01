@@ -18,10 +18,15 @@
         <div class="form-group">
             <label>Email Content:</label>
             <div class="editor-container">
-                <textarea id="editor" name="emailContent">{{ template.content_html | safe }}</textarea>
+                <div>
+                    <label for="editor">Write your content:</label>
+                    <textarea id="editor" name="emailContent" placeholder="Start typing your email content...">{{ plain_text }}</textarea>
+                </div>
             </div>
             <input type="hidden" id="emailHtml" name="emailHtml" value="{{ template.content_html | safe }}">
         </div>
+        
+        <input type="hidden" id="emailHtml" name="emailHtml" class="hidden-input">
 
         <div class="form-group">
             <label for="file">Attach PDF (optional):</label>
@@ -33,12 +38,16 @@
 
         <button type="submit">Update</button>
     </form>
-
+<!-- 
     <div class="form-group">
         <label>Generated HTML Output:</label>
         <div id="htmlOutput">{{ template.content_html | safe }}</div>
     </div>
+-->
+    <div class="form-group">
+        <label>Generated HTML Output:</label>
+    <div id="htmlOutput"></div>
 
-    <script src="../static/main.js"></script>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
 </body>
 </html>

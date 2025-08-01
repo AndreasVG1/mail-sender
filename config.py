@@ -17,8 +17,6 @@ def get_env_int(key: str) -> int:
     return int(value)
 
 class Config:
-    
-
     SQLALCHEMY_DATABASE_URI = "sqlite:///app.db"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 

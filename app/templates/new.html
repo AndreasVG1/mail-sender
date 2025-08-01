@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/crudstyle.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='crudstyle.css') }}">
     <title>New Template</title>
 </head>
 <body>
@@ -14,7 +14,7 @@
             <input type="text" id="templateName" name="templateName" required>
         </div>
         
-    <div class="form-group">
+        <div class="form-group">
             <label>Email Content:</label>
             <div class="editor-container">
                 <div>
@@ -24,9 +24,8 @@
             </div>
             <input type="hidden" id="emailHtml" name="emailHtml">
         </div>
-            <!-- Hidden input that will contain the HTML for form submission -->
-            <input type="hidden" id="emailHtml" name="emailHtml" class="hidden-input">
-        </div>
+        <!-- Hidden input that will contain the HTML for form submission -->
+        <input type="hidden" id="emailHtml" name="emailHtml" class="hidden-input">
 
         <div class="form-group">
             <label for="file">Attach PDF:</label>
@@ -34,13 +33,12 @@
         </div>
 
         <button type="submit">Save</button>
-    </div>
     </form>
 
     <div class="form-group">
         <label>Generated HTML Output:</label>
     <div id="htmlOutput"></div>
     
-    <script src="../static/main.js"></script>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
 </body>
 </html>

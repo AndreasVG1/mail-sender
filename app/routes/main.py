@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request
-from app.mail_service import send_mail, log_mail
+from app.services.mail_service import send_mail, log_mail
 from flask_login import login_required, current_user
 from ..models import MailTemplate
 

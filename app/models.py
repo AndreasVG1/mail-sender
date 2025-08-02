@@ -17,7 +17,7 @@ class User(UserMixin, db.Model):
     email: Mapped[str] = mapped_column(nullable=False)
     password: Mapped[str] = mapped_column(nullable=False)
 
-    templates: Mapped[list["MailTemplate"]] = relationship(back_populates="user")
+    templates: Mapped[list["MailTemplate"]] = relationship(back_populates="user", cascade='all, delete-orphan')
     logs: Mapped[list["MailLog"]] = relationship(back_populates="user")
     mail_settings: Mapped["MailSettings"] = relationship(back_populates="user", uselist=False)
 
@@ -37,7 +37,7 @@ class MailTemplate(db.Model):
 
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     user: Mapped["User"] = relationship(back_populates="templates")
-    logs: Mapped[list["MailLog"]] = relationship(back_populates="template")
+    logs: Mapped[list["MailLog"]] = relationship(back_populates="template", cascade='all, delete-orphan')
 
 class MailLog(db.Model):
     __tablename__ = "logs"
@@ -55,7 +55,7 @@ class MailLog(db.Model):
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     user: Mapped["User"] = relationship(back_populates="logs")
 
-    template_id: Mapped[int] = mapped_column(ForeignKey("templates.id"))
+    template_id: Mapped[int] = mapped_column(ForeignKey("templates.id", ondelete="CASCADE"))
     template: Mapped["MailTemplate"] = relationship(back_populates="logs")
 
 class MailSettings(db.Model):

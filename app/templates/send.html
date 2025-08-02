@@ -1,18 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Send Mail</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/style.css">
-</head>
-<body>
-    {% if popup %}
-        <div class="popup">
-            <p>Meil teele pandud!</p>
-        </div>
-    {% endif %}
-    <div class="card">
+{% extends "base.html" %}
+{% block title %}Send Mail{% endblock %}
+
+{% block content %}
+<h2 class="mb-4 text-center">Send an Email</h2>
+
+<form method="POST" class="needs-validation" novalidate>
+  <div class="mb-3">
+    <label for="recipient" class="form-label">Recipient Email</label>
+    <input type="email" class="form-control" id="recipient" name="recipient" placeholder="example@mail.com" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="template" class="form-label">Select Template</label>
+    <select class="form-select" id="template" name="template" required>
+      <option disabled selected value="">Choose a template...</option>
+      {% for template in temps %}
+        <option value="{{ template.id }}">{{ template.title }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-success">Send Email</button>
+</form>
+{% endblock %}
+
+
+<!--
+<div class="card">
         <h2>Saada meil</h2>
         <form method="POST">
             <label for="recipient">Saaja aadress:</label>
@@ -27,9 +41,4 @@
 
             <button type="submit">Saada</button>
         </form>
-        <div class="footer">
-            Powered by Andreas Villem
-        </div>
-    </div>
-</body>
-</html>
+-->

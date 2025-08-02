@@ -1,47 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>All Templates</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='crudstyle.css') }}">
-</head>
-<body>
-    {% if popup %}
-        <div class="popup">
-            <p>{{ message }}</p>
+{% extends "base.html" %}
+{% block title %}Your Templates{% endblock %}
+
+{% block content %}
+<h2 class="mb-4 text-center">Your Mail Templates</h2>
+
+<a href="{{ url_for('crud.create') }}" class="btn btn-primary mb-3">+ Create New Template</a>
+
+{% if templates %}
+<div class="row row-cols-1 row-cols-md-2 g-4">
+    {% for template in templates %}
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ template.title }}</h5>
+                <p class="card-text">{{ template.content_html[:100]|safe }}...</p>
+            </div>
+            <div class="card-footer d-flex justify-content-between">
+                <a href="{{ url_for('crud.edit', template_id=template.id) }}" class="btn btn-sm btn-warning">Edit</a>
+
+                <!-- Trigger Delete Modal -->
+                <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                    data-bs-target="#deleteModal{{ template.id }}">
+                    Delete
+                </button>
+            </div>
         </div>
-    {% endif %}
-    <h1>Your Templates</h1>
+    </div>
 
-    {% if templates %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Preview</th>
-                    <th>Attachment</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for template in templates %}
-                <tr>
-                    <td>{{ template.title }}</td>
-                    <td>{{ template.content_html[:50]|safe }}...</td>
-                    <td>{{ template.file_path or "None" }}</td>
-                    <td>
-                        <a href="{{ url_for('crud.edit', template_id=template.id) }}">Edit</a>
-                        |
-                        <a href="{{ url_for('crud.delete', template_id=template.id) }}">Delete</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>You haven't created any templates yet.</p>
-    {% endif %}
-
-    <a href="{{ url_for('crud.create') }}">➕ Create New Template</a>
-</body>
-</html>
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal{{ template.id }}" tabindex="-1"
+        aria-labelledby="deleteModalLabel{{ template.id }}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel{{ template.id }}">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete the template "<strong>{{ template.title }}</strong>"?
+                </div>
+                <div class="modal-footer">
+                    <form method="POST" action="{{ url_for('crud.delete', template_id=template.id) }}">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info text-center">
+    No templates created yet.
+</div>
+{% endif %}
+{% endblock %}

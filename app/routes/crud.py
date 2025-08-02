@@ -20,7 +20,7 @@ def create() -> Response | str:
         file_path = save_file(request.files.get("file"))
         
         save_template(title, content_html, file_path, current_user.id)
-        return redirect(url_for("crud.all", popup=True, message="Template added successfully."))
+        return redirect(url_for("crud.all"))
     
     return render_template("new.html")
 
@@ -38,7 +38,7 @@ def edit(template_id: int) -> Response | str:
         file = request.files.get("file")
         update_template(template, new_title, new_content, file)
     
-        return redirect(url_for("crud.all",  popup=True, message="Template updated successfully."))
+        return redirect(url_for("crud.all"))
 
     plain_text = html_to_plain_text(template.content_html)
     return render_template("edit.html", template=template, plain_text=plain_text)
@@ -53,7 +53,7 @@ def delete(template_id: int) -> Response | str:
     
     if request.method == 'POST':
         delete_template(template)
-        return redirect(url_for("crud.all", popup=True, message="Template deleted successfully."))
+        return redirect(url_for("crud.all"))
     
     return render_template("delete.html", template=template)
 

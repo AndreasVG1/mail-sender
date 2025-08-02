@@ -1,37 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='crudstyle.css') }}">
-    <title>Logs</title>
-</head>
-<body>
-    <h1>Sent mail</h1>
-    {% if mail_logs %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Preview</th>
-                    <th>Recipient</th>
-                    <th>Time</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for log in mail_logs %}
-                    {% set template = log.template %}
-                    <tr>
-                        <td>{{ template.title }}</td>
-                        <td>{{ template.content_html[:50]|safe }}...</td>
-                        <td>{{ log.recipient }}</td>
-                        <td>{{ log.timestamp.strftime('%d/%m/%Y %H:%M') }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>You haven't sent any mail yet.</p>
-    {% endif %}
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}Sent Mail Logs{% endblock %}
+
+{% block content %}
+<h2 class="mb-4 text-center">Mail Logs</h2>
+
+{% if mail_logs %}
+<div class="table-responsive">
+  <table class="table table-striped table-hover align-middle">
+    <thead class="table-dark">
+      <tr>
+        <th>Title</th>
+        <th>Preview</th>
+        <th>Recipient</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log in mail_logs %}
+        <tr>
+          <td>{{ log.template.title }}</td>
+          <td>{{ log.template.content_html[:50]|safe }}...</td>
+          <td>{{ log.recipient }}</td>
+          <td>{{ log.timestamp.strftime('%d/%m/%Y %H:%M') }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+  <div class="alert alert-info text-center">
+    You haven't sent any mail yet.
+  </div>
+{% endif %}
+{% endblock %}
+
+
+<!--
+{% for log in mail_logs %}
+{% set template = log.template %}
+<tr>
+    <td>{{ template.title }}</td>
+    <td>{{ template.content_html[:50]|safe }}...</td>
+    <td>{{ log.recipient }}</td>
+    <td>{{ log.timestamp.strftime('%d/%m/%Y %H:%M') }}</td>
+</tr>
+{% endfor %}
+-->

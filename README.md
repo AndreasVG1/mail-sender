@@ -56,7 +56,7 @@ A full-stack web application for sending templated emails with optional PDF atta
 
 ```bash
 # Clone the repository
-git clone https://github.com/AndreasVG1/flask-mail-app.git
+git clone https://github.com/AndreasVG1/mail-sender.git
 cd flask-mail-app
 
 # Create a virtual environment

@@ -6,43 +6,16 @@
   <div class="card shadow p-4" style="width: 100%; max-width: 500px;">
     <h2 class="mb-4 text-center text-primary">Register</h2>
     <form method="POST">
-      <!-- Account Info -->
-      <h5 class="mb-3">Account Information</h5>
-      <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" name="username" id="username" required>
-      </div>
-      <div class="mb-3">
-        <label for="userEmail" class="form-label">Email</label>
-        <input type="email" class="form-control" name="userEmail" id="userEmail" required>
-      </div>
-      <div class="mb-4">
-        <label for="userPassword" class="form-label">Password</label>
-        <input type="password" class="form-control" name="userPassword" id="userPassword" required>
-      </div>
+      {{ form.hidden_tag() }}
+      {{ form.username.label }} {{ form.username(class="form-control") }}
+      {{ form.user_email.label }} {{ form.user_email(class="form-control") }}
+      {{ form.user_password.label }} {{ form.user_password(class="form-control") }}
 
-      <!-- Mail Settings -->
-      <h5 class="mb-3">Mail Account Settings</h5>
-      <div class="mb-3">
-        <label for="provider" class="form-label">Provider</label>
-        <select class="form-select" name="provider" id="provider" required>
-          <option value="zone">Zone</option>
-          <option value="gmail">Gmail</option>
-          <option value="outlook">Outlook</option>
-        </select>
-      </div>
-      <div class="mb-3">
-        <label for="accEmail" class="form-label">Mail Address</label>
-        <input type="email" class="form-control" name="accEmail" id="accEmail" required>
-      </div>
-      <div class="mb-4">
-        <label for="accPassword" class="form-label">Mail Password</label>
-        <input type="password" class="form-control" name="accPassword" id="accPassword" required>
-      </div>
+      {{ form.provider.label }} {{ form.provider(class="form-select") }}
+      {{ form.acc_email.label }} {{ form.acc_email(class="form-control") }}
+      {{ form.acc_password.label }} {{ form.acc_password(class="form-control") }}
 
-      <div class="d-grid">
-        <button type="submit" class="btn btn-primary">Register</button>
-      </div>
+      {{ form.submit(class="btn btn-success mt-3") }}
     </form>
     <p class="mt-3 text-center text-muted">Already have an account?
       <a href="{{ url_for('auth.login') }}">Login here</a>.

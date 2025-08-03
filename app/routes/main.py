@@ -1,7 +1,9 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, flash, redirect, render_template, request, url_for
+from werkzeug import Response
 from app.services.mail_service import send_mail, log_mail
 from flask_login import login_required, current_user
 from ..models import MailTemplate
+from app.forms.send_mail_form import SendMailForm
 
 main = Blueprint("main", __name__)
 
@@ -11,22 +13,26 @@ def index() -> str:
 
 @main.route("/send", methods=["GET", "POST"])
 @login_required
-def send() -> str:
-    templates = MailTemplate.query.filter_by(user_id=current_user.id).all()
+def send() -> str | Response:
+    form = SendMailForm()
 
-    if request.method == 'POST':
-        to = request.form['recipient']
-        template_id = request.form['template']
+    templates = MailTemplate.query.filter_by(user_id=current_user.id).all()   
+    form.template_id.choices = [(-1, "-- Select a template --")] + [(t.id, t.title) for t in templates] # type: ignore
+
+    if request.method == 'POST' and form.validate_on_submit():
+        to = form.recipient.data
+        template_id = form.template_id.data
         template = MailTemplate.query.filter_by(id=template_id, user_id=current_user.id).first()
 
         if not template:
-            return render_template("send.html", temps=templates)
+            return render_template("send.html", form=form)
 
-        send_mail(template, to, current_user.mail_settings)
-        log_mail(to, current_user.id, template.id)
-        return render_template("send.html", temps=templates)
+        send_mail(template, to, current_user.mail_settings) # type: ignore
+        log_mail(to, current_user.id, template.id) # type: ignore
+        flash("Email sent successfully!", "success")
+        return redirect(url_for("main.send"))
 
-    return render_template("send.html", temps=templates)
+    return render_template("send.html", form=form)
 
 @main.route("/dashboard")
 @login_required

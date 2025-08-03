@@ -6,23 +6,26 @@
   <h2 class="mb-4">Create New Template</h2>
 
   <form method="POST" enctype="multipart/form-data" id="templateForm">
-    <div class="mb-3">
-      <label for="templateName" class="form-label">Template Name</label>
-      <input type="text" id="templateName" name="templateName" class="form-control" required>
-    </div>
+    {{ form.hidden_tag() }}
 
-    <div class="mb-3">
-      <label for="editor" class="form-label">Write Your Email Content</label>
-      <textarea id="editor" name="emailContent" class="form-control" rows="6" placeholder="Start typing..."></textarea>
+      <div class="form-group mb-3">
+          {{ form.template_name.label }}
+          {{ form.template_name(class="form-control") }}
+      </div>
+
+      <div class="form-group mb-3">
+          <label for="editor">Write your content:</label>
+          <textarea id="editor" class="form-control" name="emailContent" placeholder="Start typing your email content..."></textarea>
+      </div>
+
       <input type="hidden" id="emailHtml" name="emailHtml">
-    </div>
 
-    <div class="mb-3">
-      <label for="file" class="form-label">Attach PDF (optional)</label>
-      <input type="file" class="form-control" name="file" id="file" accept="application/pdf">
-    </div>
+      <div class="form-group mb-3">
+          {{ form.file.label }}
+          {{ form.file(class="form-control") }}
+      </div>
 
-    <button type="submit" class="btn btn-success">Save Template</button>
+      {{ form.submit(class="btn btn-primary") }}
   </form>
 
   <div class="mt-4">

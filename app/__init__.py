@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from config import Config
 from flask_login import LoginManager
+from flask_wtf import CSRFProtect
 
 class Base(DeclarativeBase):
   pass
@@ -10,10 +11,12 @@ class Base(DeclarativeBase):
 db = SQLAlchemy(model_class=Base)
 login_manager = LoginManager()
 
+csrf = CSRFProtect()
 
 def create_app() -> Flask:
     app = Flask(__name__)
-    
+    csrf.init_app(app)
+
     app.config.from_object(Config)
     db.init_app(app)
 
@@ -32,7 +35,7 @@ def create_app() -> Flask:
         from . import models
         db.create_all()
 
-    # Register routes or blueprints
+    # Register routes and blueprints
     from .routes.main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 

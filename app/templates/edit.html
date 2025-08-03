@@ -6,26 +6,29 @@
   <h2 class="mb-4">Edit Template</h2>
 
   <form method="POST" enctype="multipart/form-data" id="templateForm">
-    <div class="mb-3">
-      <label for="templateName" class="form-label">Template Name</label>
-      <input type="text" id="templateName" name="templateName" class="form-control" value="{{ template.title }}" required>
+    {{ form.hidden_tag() }}
+
+    <div class="form-group mb-3">
+        {{ form.template_name.label }}
+        {{ form.template_name(class="form-control", value=template.title) }}
     </div>
 
-    <div class="mb-3">
-      <label for="editor" class="form-label">Write Your Email Content</label>
-      <textarea id="editor" name="emailContent" class="form-control" rows="6">{{ plain_text }}</textarea>
-      <input type="hidden" id="emailHtml" name="emailHtml" value="{{ template.content_html | safe }}">
+    <div class="form-group mb-3">
+        <label for="editor">Write your content:</label>
+        <textarea id="editor" class="form-control" name="emailContent">{{ plain_text }}</textarea>
     </div>
 
-    <div class="mb-3">
-      <label for="file" class="form-label">Attach New PDF (optional)</label>
-      {% if template.file_path %}
-        <p>Current File: <strong>{{ template.file_path }}</strong></p>
-      {% endif %}
-      <input type="file" class="form-control" name="file" accept="application/pdf">
+    <input type="hidden" id="emailHtml" name="emailHtml" value="{{ template.content_html | safe }}">
+
+    <div class="form-group mb-3">
+        {{ form.file.label }}
+        {% if template.file_path %}
+            <p>Current File: {{ template.file_path }}</p>
+        {% endif %}
+        {{ form.file(class="form-control") }}
     </div>
 
-    <button type="submit" class="btn btn-primary">Update Template</button>
+    {{ form.submit(class="btn btn-success") }}
   </form>
 
   <div class="mt-4">

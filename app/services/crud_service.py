@@ -5,6 +5,10 @@ from werkzeug.datastructures.file_storage import FileStorage
 from werkzeug.utils import secure_filename
 from ..models import MailTemplate
 from bs4 import BeautifulSoup
+import bleach
+
+def clean_html_input(raw_html: str) -> str:
+    return bleach.clean(raw_html, tags=["p", "br", "strong", "em", "ul", "ol", "li", "a"], strip=True)
 
 def save_file(file: FileStorage | None) -> str | None:
     if file and file.filename:
@@ -21,7 +25,7 @@ def delete_file(file_path: str) -> None:
 def save_template(title: str, content: str, file_path: str | None, user_id: int) -> None:
     new_template = MailTemplate(
         title=title,
-        content_html=content,
+        content_html=clean_html_input(content),
         file_path=file_path,
         user_id=user_id
     )
@@ -30,7 +34,7 @@ def save_template(title: str, content: str, file_path: str | None, user_id: int)
 
 def update_template(template: MailTemplate, new_title: str, new_content: str, file: FileStorage | None) -> None:
     template.title = new_title
-    template.content_html = new_content
+    template.content_html = clean_html_input(new_content)
 
     file_path = save_file(file)
     if file_path:

@@ -2,7 +2,7 @@ from flask import Blueprint, request, redirect, url_for, render_template
 from werkzeug.wrappers.response import Response
 from flask_login import login_required, current_user
 from ..models import MailTemplate
-from app.forms.crud_forms import TemplateForm
+from app.forms.crud_forms import TemplateForm, DeleteForm
 from app.services.crud_service import (
     save_file, 
     save_template, 
@@ -50,6 +50,7 @@ def edit(template_id: int) -> Response | str:
 @login_required
 def delete(template_id: int) -> Response | str:
     template = MailTemplate.query.filter_by(id=template_id, user_id=current_user.id).first()
+    form = DeleteForm()
 
     if not template:
         return redirect(url_for("crud.all"))
@@ -58,10 +59,11 @@ def delete(template_id: int) -> Response | str:
         delete_template(template)
         return redirect(url_for("crud.all"))
     
-    return render_template("delete.html", template=template)
+    return render_template("delete.html", template=template, form=form)
 
 @crud.route("/templates/all")
 @login_required
 def all() -> Response | str:
+    form = DeleteForm()
     templates = current_user.templates
-    return render_template("all_templates.html", templates=templates)
+    return render_template("all_templates.html", templates=templates, form=form)

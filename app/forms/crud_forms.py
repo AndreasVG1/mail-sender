@@ -7,3 +7,6 @@ class TemplateForm(FlaskForm):
     template_name = StringField("Template Name", validators=[DataRequired()])
     file = FileField("Attach PDF", validators=[FileAllowed(['pdf'], 'PDF only!')])
     submit = SubmitField("Save")
+
+class DeleteForm(FlaskForm):
+    submit = SubmitField("Delete")

@@ -41,7 +41,8 @@
                 </div>
                 <div class="modal-footer">
                     <form method="POST" action="{{ url_for('crud.delete', template_id=template.id) }}">
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        {{ form.hidden_tag() }}
+                        {{ form.submit(class="btn btn-danger") }}
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     </form>
                 </div>

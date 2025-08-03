@@ -16,7 +16,8 @@
     </div>
     
     <form method="POST">
-        <button type="submit">Yes, Delete</button>
+        {{ form.hidden_tag() }}
+        {{ form.submit(class="btn btn-success") }}
         <a href="{{ url_for('crud.all') }}">Cancel</a>
     </form>
 </body>

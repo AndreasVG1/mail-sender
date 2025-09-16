@@ -23,7 +23,9 @@ def login() -> Response | str:
         user = User.query.filter_by(username=username).first()
     
         if user and check_password_hash(user.password, password): # type: ignore
+            from flask import session
             login_user(user)
+            session.permanent = True
             return redirect(url_for("main.dashboard"))
         else:
             flash("Invalid username or password")

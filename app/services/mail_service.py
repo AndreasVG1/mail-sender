@@ -27,13 +27,15 @@ def parse_template(template: str, context: dict = {}) -> str:
 
 """Attaches a file to the email if file path is valid."""
 def add_file(msg: EmailMessage, file_path: str) -> EmailMessage:
-    file_path = os.path.join(current_app.root_path, 'files', file_path)
-    with open(file_path, 'rb') as f:
+    if not file_path:
+        return msg
+    file_path_full = os.path.join(current_app.root_path, 'files', file_path)
+    with open(file_path_full, 'rb') as f:
         msg.add_attachment(
             f.read(),
             maintype='application',
             subtype='pdf',
-            filename=os.path.basename(file_path)
+            filename=os.path.basename(file_path_full)
         )
     return msg
 

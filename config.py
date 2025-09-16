@@ -21,3 +21,6 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     SECRET_KEY = secrets.token_hex(16)
+    # Keep users logged in for 7 days
+    from datetime import timedelta
+    PERMANENT_SESSION_LIFETIME = timedelta(days=7)

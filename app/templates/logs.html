@@ -33,16 +33,3 @@
   </div>
 {% endif %}
 {% endblock %}
-
-
-<!--
-{% for log in mail_logs %}
-{% set template = log.template %}
-<tr>
-    <td>{{ template.title }}</td>
-    <td>{{ template.content_html[:50]|safe }}...</td>
-    <td>{{ log.recipient }}</td>
-    <td>{{ log.timestamp.strftime('%d/%m/%Y %H:%M') }}</td>
-</tr>
-{% endfor %}
--->

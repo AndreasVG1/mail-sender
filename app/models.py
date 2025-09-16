@@ -18,7 +18,10 @@ class User(UserMixin, db.Model):
     password: Mapped[str] = mapped_column(nullable=False)
 
     templates: Mapped[list["MailTemplate"]] = relationship(back_populates="user", cascade='all, delete-orphan')
-    logs: Mapped[list["MailLog"]] = relationship(back_populates="user")
+    logs: Mapped[list["MailLog"]] = relationship(
+        back_populates="user",
+        order_by="desc(MailLog.timestamp)"
+    )
     mail_settings: Mapped["MailSettings"] = relationship(back_populates="user", uselist=False)
 
 class MailTemplate(db.Model):
